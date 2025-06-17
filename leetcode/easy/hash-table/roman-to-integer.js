@@ -2,7 +2,8 @@
  * @param {string} s
  * @return {number}
  */
-//내 답, 매우 느림
+
+//107ms
 var romanToInt_ = function(s) {
 	let arr = [];
 	let answer = 0;
@@ -45,8 +46,9 @@ var romanToInt_ = function(s) {
 	return answer;
 };
 
-//클로드 정답
+// 클로드 정답
 // 방법 1: 맵 사용 + 한 번의 순회
+// 5ms
 var romanToInt = function(s) {
     const romanMap = {
         'I': 1, 'V': 5, 'X': 10, 'L': 50,
@@ -70,6 +72,7 @@ var romanToInt = function(s) {
 };
 
 // 방법 2: 역순 순회 (더 직관적)
+// 2ms
 var romanToIntReverse = function(s) {
     const romanMap = {
         'I': 1, 'V': 5, 'X': 10, 'L': 50,
@@ -96,6 +99,7 @@ var romanToIntReverse = function(s) {
 };
 
 // 방법 3: 특별한 케이스 먼저 처리
+// 11ms
 var romanToIntSpecialCases = function(s) {
     const romanMap = {
         'I': 1, 'V': 5, 'X': 10, 'L': 50,

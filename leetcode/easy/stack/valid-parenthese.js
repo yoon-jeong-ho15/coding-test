@@ -21,6 +21,7 @@ function isValid(str) {
     const char = s[i];
 
     if (map[char]) {
+      console.log(char);
       stack.push(char);
     } else {
       if (stack.length === 0) {
@@ -42,5 +43,5 @@ function isValid(str) {
 // console.log(isValid("()[]{}"));
 // console.log(isValid("(]"));
 // console.log(isValid("(sdfsdf[asdfsdf]sdfsd)"));
-console.log(isValid("(("));
+console.log(isValid("()"));
 // console.log(isValid("))"));
