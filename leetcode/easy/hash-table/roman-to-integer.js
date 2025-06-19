@@ -128,14 +128,6 @@ var romanToIntSpecialCases = function(s) {
     return result;
 };
 
-// 방법 4: 가장 간결한 버전
-var romanToIntConcise = function(s) {
-    const map = {'I':1,'V':5,'X':10,'L':50,'C':100,'D':500,'M':1000};
-    return [...s].reduce((acc, char, i) => 
-        map[char] < map[s[i + 1]] ? acc - map[char] : acc + map[char], 0
-    );
-};
-
 // 성능 테스트 함수
 function performanceTest() {
     const testCases = ['III', 'LVIII', 'MCMXC', 'MCDXLIV'];
