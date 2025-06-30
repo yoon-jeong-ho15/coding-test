@@ -10,6 +10,7 @@ function solution(n) {
             let m = arr[j];
             if(n>=m){
                 arr.splice(j,0,n);
+                // arr = [n,...arr];
                 inserted = true;
                 break;
             }
@@ -21,3 +22,4 @@ function solution(n) {
 }
 
 console.log(solution(118372));
+
