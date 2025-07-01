@@ -26,7 +26,7 @@ function solution(a, b) {
         days += monthMap[i];
     }
     days += (b-1);
-    console.log(days);
+    // console.log(days); 
     answer = map[days%7];
 
     return answer;
