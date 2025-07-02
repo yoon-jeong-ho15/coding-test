@@ -1,4 +1,4 @@
-function solution(buildings){
+function solution2(buildings){
 	let answer = [];
 	let tallest = 0;
 
@@ -13,5 +13,6 @@ function solution(buildings){
 
 	return answer;
 }
+
 
 console.log(solution([3,7,1,4,6,2]));

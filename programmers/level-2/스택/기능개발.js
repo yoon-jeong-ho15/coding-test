@@ -1,5 +1,5 @@
 // 구현/시뮬레이션 방법 사
-function solution(progresses, speeds) {
+function solution2(progresses, speeds) {
     var answer = [];
     let days = 0;
     while(progresses.length>0){
@@ -26,7 +26,7 @@ function solution(progresses, speeds) {
 }
 
 // 스택/큐 사용
-function solution2(progresses, speeds) {
+function solution(progresses, speeds) {
     let answer = [];
     let queue = [];
     for (let i=0;i<progresses.length;i++){
@@ -48,5 +48,28 @@ function solution2(progresses, speeds) {
 }
 
 
-// console.log(solution2([93,30,55],[1,30,5]));
-console.log(solution2([95,90,99,99,80,99],[1,1,1,1,1,1]));
+
+function solutionR(progresses, speeds){
+    let answer =[];
+    let queue = [];
+    for(let i=0;i<progresses.length;i++){
+        queue.push(Math.ceil((100-progresses[i])/speeds[i]));
+    }
+    console.log(queue);
+
+    while(queue.length>0){
+        let a = queue.shift();
+        console.log(a,queue);
+        count = 1;
+        while(queue[0]<=a){
+            count++;
+            queue.shift();
+        }
+
+        answer.push(count);
+    }
+    return answer;
+}
+
+// console.log(solution([93,30,55],[1,30,5]));
+console.log(solution([95,90,99,99,80,99],[1,1,1,1,1,1]));
