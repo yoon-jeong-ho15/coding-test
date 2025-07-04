@@ -55,11 +55,13 @@ function solution2(k, dungeons) {
 
 function solution(k,dungeons){
     let answer = 0;
+    let arr = new Arr(dungeons.length).fill(false);
 
-    function backtrack(){
-
+    function backtrack(k,count){
+        
     }
 
+    backtrack(k,0);
 
     return answer;
 }
