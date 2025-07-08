@@ -127,7 +127,6 @@ function solution(schedule){
                 let class2 = getTime(c2,isSplit);
                 class1 = [class1,class2];
             }
-
             if(map.has(i)){
                 map.get(i).push(class1);
             }else{
@@ -141,17 +140,31 @@ function solution(schedule){
             return 1;
         }
 
+        let count = 0;
         let cur = map.get(subj);
         // console.log(cur);
-        for(let i=0;i<cur.length;i++){
-            
-
+        for(let c of cur){
+            // console.log("c",c);
+            let flag = true;
+            for(let a of arr){
+                // console.log("a",a);
+                let isChecked = check(a,c);
+                if(!isChecked){
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag){
+                arr.push(c);
+                count += backtrack(subj+1,arr);
+                arr.pop(c);
+            }
         }
+        return count;
 
     }
     
-    let arr = [];
-    backtrack(0,arr);
+    answer = backtrack(0,[]);
     // console.log(map);
     // console.log(map.get(0));
     return answer;
@@ -166,6 +179,25 @@ function getTime(str, isSplit){
     return {day, start, end};
 }
 
+function check(a, c){
+    let aa = a[0]?[...a]:[a];
+    let cc = c[0]?[...c]:[c];
+    let result = true;
+
+    for (let aaa of aa){
+        for(let ccc of cc){
+            // console.log(aaa,ccc);
+            if(aaa.day === ccc.day){
+                if(aaa.start > ccc.end || ccc.start > aaa.end){
+                    result = false;
+                    break;
+                }
+            }
+        }
+    }
+    
+    return result;
+}
 
 console.log(solution([
 [ 'MO 12:00 WE 14:30', 'MO 12:00', 'MO 15:00', 'MO 18:00' ],
