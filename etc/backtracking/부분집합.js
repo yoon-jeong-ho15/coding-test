@@ -18,9 +18,6 @@ function solution(target, nums) {
         let cur = nums[i];
         // console.log(cur);
 
-
-
-
     }
 
     backtrack(0,[]);

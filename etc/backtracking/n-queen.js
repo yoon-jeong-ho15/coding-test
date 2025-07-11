@@ -87,7 +87,6 @@ function check(c, queens){
 	return true;
 }
 
-
 function solution(n){
 	let answer = 0;
 	let total = [];
