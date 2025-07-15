@@ -18,21 +18,14 @@
 - 출력: 1
 */
 function solution1(a, b) {
-  // 여기에 코드를 작성하세요.
-  let answer = 0;
-  function gcd(a,b){
-    let r = a % b;
-    if(r==0){
-      return b;
-    }
-    return gcd(b,r);
+  function findGCD(currentA, currentB) {
+    // 여기에 코드를 작성하세요.
   }
-  answer = gcd(a,b);
-  return answer;
+  return findGCD(a, b);
 }
 
-// console.log("최대공약수 (48, 18):", solution1(48, 18));
-// console.log("최대공약수 (9, 28):", solution1(9, 28));
+console.log("최대공약수 (48, 18):", solution1(48, 18));
+console.log("최대공약수 (9, 28):", solution1(9, 28));
 
 
 // =================================================================
@@ -41,10 +34,6 @@ function solution1(a, b) {
 /*
 문제 설명:
 주어진 문자열을 재귀적으로 뒤집는 함수를 작성하세요.
-힌트:
-- 빈 문자열이나 길이가 1인 문자열은 그대로 반환합니다. (기본 조건)
-- 문자열의 첫 글자와 나머지 부분으로 나눌 수 있습니다.
-- `str.substring(1)` 와 `str.charAt(0)` 를 활용해 보세요.
 
 입출력 예시:
 - 입력: "hello"
@@ -54,22 +43,14 @@ function solution1(a, b) {
 - 출력: "dlrow"
 */
 function solution2(str) {
-  // 여기에 코드를 작성하세요.
-  let answer = "";
-  function back(n){
-    if(n<0){
-      return;
-    }
-    answer += str[n];
-    back(n-1);
+  function reverseStringRecursive(s) {
+    // 여기에 코드를 작성하세요.
   }
-  back(str.length-1);
-
-  return answer;
+  return reverseStringRecursive(str);
 }
 
-// console.log("문자열 뒤집기 ('hello'):", solution2("hello"));
-// console.log("문자열 뒤집기 ('world'):", solution2("world"));
+console.log("문자열 뒤집기 ('hello'):", solution2("hello"));
+console.log("문자열 뒤집기 ('world'):", solution2("world"));
 
 
 // =================================================================
@@ -78,10 +59,6 @@ function solution2(str) {
 /*
 문제 설명:
 음이 아닌 정수 num의 각 자릿수의 합을 재귀적으로 구하는 함수를 작성하세요.
-힌트:
-- 숫자를 10으로 나눈 나머지는 마지막 자릿수와 같습니다.
-- 숫자를 10으로 나눈 몫은 마지막 자릿수를 제외한 나머지 숫자들과 같습니다.
-- `num % 10` 과 `Math.floor(num / 10)` 를 활용해 보세요.
 
 입출력 예시:
 - 입력: 12345
@@ -92,20 +69,115 @@ function solution2(str) {
 
 */
 function solution3(num) {
-  // 여기에 코드를 작성하세요.
-  num += "";
-  function back(n){
-    if(n<0){
-      return 0;
-    }
-
-    return Number(num[n])+back(n-1);
+  function sumDigitsRecursive(n) {
+    // 여기에 코드를 작성하세요.
   }
-
-  let answer = back(num.length-1);
-
-  return answer;
+  return sumDigitsRecursive(num);
 }
 
-// console.log("자릿수 합 (12345):", solution3(12345));
-// console.log("자릿수 합 (987):", solution3(987));
+console.log("자릿수 합 (12345):", solution3(12345));
+console.log("자릿수 합 (987):", solution3(987));
+
+
+// =================================================================
+// 문제 4: 팩토리얼 구하기
+// =================================================================
+/*
+문제 설명:
+음이 아닌 정수 n의 팩토리얼(n!)을 재귀적으로 구하는 함수를 작성하세요.
+팩토리얼은 1부터 n까지의 모든 양의 정수를 곱한 값입니다. (0! = 1)
+
+입출력 예시:
+- 입력: 5
+- 출력: 120 (5 * 4 * 3 * 2 * 1)
+
+- 입력: 0
+- 출력: 1
+*/
+function solution4(n) {
+  function calculateFactorial(num) {
+    // 여기에 코드를 작성하세요.
+  }
+  return calculateFactorial(n);
+}
+
+console.log("팩토리얼 (5):", solution4(5));
+console.log("팩토리얼 (0):", solution4(0));
+
+
+// =================================================================
+// 문제 5: 피보나치 수열의 n번째 항 구하기
+// =================================================================
+/*
+문제 설명:
+피보나치 수열의 n번째 항을 재귀적으로 구하는 함수를 작성하세요.
+피보나치 수열은 첫째 및 둘째 항이 1이며, 그 뒤의 모든 항은 바로 앞 두 항의 합인 수열입니다.
+(F(0) = 0, F(1) = 1 이라고 가정하고 F(n) = F(n-1) + F(n-2) for n > 1)
+
+입출력 예시:
+- 입력: 6
+- 출력: 8 (0, 1, 1, 2, 3, 5, 8)
+
+- 입력: 10
+- 출력: 55
+*/
+function solution5(n) {
+  function getFibonacci(num) {
+    // 여기에 코드를 작성하세요.
+  }
+  return getFibonacci(n);
+}
+
+console.log("피보나치 (6):", solution5(6));
+console.log("피보나치 (10):", solution5(10));
+
+
+// =================================================================
+// 문제 6: 배열의 합 구하기
+// =================================================================
+/*
+문제 설명:
+정수 배열 arr의 모든 요소의 합을 재귀적으로 구하는 함수를 작성하세요.
+
+입출력 예시:
+- 입력: [1, 2, 3, 4, 5]
+- 출력: 15
+
+- 입력: [10, -1, 5]
+- 출력: 14
+*/
+function solution6(arr) {
+  function sumArrayRecursive(array, index) {
+    // 여기에 코드를 작성하세요.
+  }
+  return sumArrayRecursive(arr, 0);
+}
+
+console.log("배열 합 ([1, 2, 3, 4, 5]):", solution6([1, 2, 3, 4, 5]));
+console.log("배열 합 ([10, -1, 5]):", solution6([10, -1, 5]));
+
+
+// =================================================================
+// 문제 7: 거듭제곱 구하기
+// =================================================================
+/*
+문제 설명:
+정수 base와 음이 아닌 정수 exponent가 주어졌을 때, `base`의 `exponent` 거듭제곱을 재귀적으로 구하는 함수를 작성하세요.
+(base^exponent)
+
+입출력 예시:
+- 입력: base = 2, exponent = 10
+- 출력: 1024
+
+- 입력: base = 3, exponent = 5
+- 출력: 243
+*/
+function solution7(base, exponent) {
+  function calculatePower(b, exp) {
+    // 여기에 코드를 작성하세요.
+  }
+  return calculatePower(base, exponent);
+}
+
+console.log("거듭제곱 (2^10):", solution7(2, 10));
+console.log("거듭제곱 (3^5):", solution7(3, 5));
