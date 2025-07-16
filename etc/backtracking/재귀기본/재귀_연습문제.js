@@ -19,13 +19,17 @@
 */
 function solution1(a, b) {
   function findGCD(currentA, currentB) {
-    // 여기에 코드를 작성하세요.
+    let r = currentA % currentB;
+    if(r===0){
+      return currentB;
+    }
+    return findGCD(currentB,r);
   }
   return findGCD(a, b);
 }
 
-console.log("최대공약수 (48, 18):", solution1(48, 18));
-console.log("최대공약수 (9, 28):", solution1(9, 28));
+// console.log("최대공약수 (48, 18):", solution1(48, 18));
+// console.log("최대공약수 (9, 28):", solution1(9, 28));
 
 
 // =================================================================
@@ -44,13 +48,19 @@ console.log("최대공약수 (9, 28):", solution1(9, 28));
 */
 function solution2(str) {
   function reverseStringRecursive(s) {
-    // 여기에 코드를 작성하세요.
+    if(s.length===1){
+      return s;
+    }
+    let c = s.substr(s.length-1);
+    s = s.substr(0,s.length-1);
+    return c+reverseStringRecursive(s);
+    
   }
   return reverseStringRecursive(str);
 }
 
-console.log("문자열 뒤집기 ('hello'):", solution2("hello"));
-console.log("문자열 뒤집기 ('world'):", solution2("world"));
+// console.log("문자열 뒤집기 ('hello'):", solution2("hello"));
+// console.log("문자열 뒤집기 ('world'):", solution2("world"));
 
 
 // =================================================================
@@ -71,12 +81,18 @@ console.log("문자열 뒤집기 ('world'):", solution2("world"));
 function solution3(num) {
   function sumDigitsRecursive(n) {
     // 여기에 코드를 작성하세요.
+    if(n.length===1){
+      return parseInt(n);
+    }   
+    let c = parseInt(n.substr(0,1));
+    n = n.substr(1,n.length);
+    return c+sumDigitsRecursive(n);
   }
-  return sumDigitsRecursive(num);
+  return sumDigitsRecursive(num+"");
 }
 
-console.log("자릿수 합 (12345):", solution3(12345));
-console.log("자릿수 합 (987):", solution3(987));
+// console.log("자릿수 합 (12345):", solution3(12345));
+// console.log("자릿수 합 (987):", solution3(987));
 
 
 // =================================================================
@@ -97,12 +113,17 @@ console.log("자릿수 합 (987):", solution3(987));
 function solution4(n) {
   function calculateFactorial(num) {
     // 여기에 코드를 작성하세요.
+    if(num===1||num===0){
+      return 1;
+    }
+
+    return num * calculateFactorial(num-1); 
   }
   return calculateFactorial(n);
 }
 
-console.log("팩토리얼 (5):", solution4(5));
-console.log("팩토리얼 (0):", solution4(0));
+// console.log("팩토리얼 (5):", solution4(5));
+// console.log("팩토리얼 (0):", solution4(0));
 
 
 // =================================================================
@@ -124,12 +145,18 @@ console.log("팩토리얼 (0):", solution4(0));
 function solution5(n) {
   function getFibonacci(num) {
     // 여기에 코드를 작성하세요.
+    if(num<=2){
+      return 1;
+    }
+    let a = getFibonacci(num-1);
+    let b = getFibonacci(num-2);
+    return a+b;
   }
   return getFibonacci(n);
 }
 
-console.log("피보나치 (6):", solution5(6));
-console.log("피보나치 (10):", solution5(10));
+// console.log("피보나치 (6):", solution5(6));
+// console.log("피보나치 (10):", solution5(10));
 
 
 // =================================================================
@@ -149,12 +176,17 @@ console.log("피보나치 (10):", solution5(10));
 function solution6(arr) {
   function sumArrayRecursive(array, index) {
     // 여기에 코드를 작성하세요.
+    if(index===arr.length){
+      return 0; 
+    }
+    let cur = array[index];
+    return cur + sumArrayRecursive(array,index+1)
   }
   return sumArrayRecursive(arr, 0);
 }
 
-console.log("배열 합 ([1, 2, 3, 4, 5]):", solution6([1, 2, 3, 4, 5]));
-console.log("배열 합 ([10, -1, 5]):", solution6([10, -1, 5]));
+// console.log("배열 합 ([1, 2, 3, 4, 5]):", solution6([1, 2, 3, 4, 5]));
+// console.log("배열 합 ([10, -1, 5]):", solution6([10, -1, 5]));
 
 
 // =================================================================
@@ -174,10 +206,17 @@ console.log("배열 합 ([10, -1, 5]):", solution6([10, -1, 5]));
 */
 function solution7(base, exponent) {
   function calculatePower(b, exp) {
-    // 여기에 코드를 작성하세요.
+    if(exp===1){
+      return b;
+    }
+    if(exp===0){
+      return 1;
+    }
+    return b * calculatePower(b,exp-1);
   }
   return calculatePower(base, exponent);
 }
 
-console.log("거듭제곱 (2^10):", solution7(2, 10));
-console.log("거듭제곱 (3^5):", solution7(3, 5));
+// console.log("거듭제곱 (2^10):", solution7(2, 10));
+// console.log("거듭제곱 (3^5):", solution7(3, 5));
+// console.log("거듭제곱 (3^0):", solution7(3, 0));

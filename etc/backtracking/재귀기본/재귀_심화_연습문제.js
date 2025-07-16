@@ -173,8 +173,7 @@ function solution4(arr) {
       result.push(currentPermutation);
       return;
     }
-    console.log(currentPermutation);
-    console.log(visited);
+    currentSubset.push()
 
   }
 
