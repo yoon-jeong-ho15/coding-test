@@ -1,5 +1,5 @@
-function solution(n, m, rectangle) {
-    var answer = [];  // [[]] -> [] 수정
+function solution2(n, m, rectangle) {
+    var answer = [];
     let grid = new Map();
     let squares = [];
     for(let i=1;i<=m;i++){
@@ -53,6 +53,62 @@ function solution(n, m, rectangle) {
     }
     // console.log(grid);
     return answer;
+}
+
+function solution(n, m, rectangle) {
+    // 1. 2차원 배열로 그리드 생성 (훨씬 직관적)
+    let grid = Array(m).fill().map(() => Array(n).fill(0));
+    let answer = [];
+    
+    // 2. 사각형 리스트 생성
+    let squares = [];
+    for (let [size, count] of rectangle) {
+        for (let i = 0; i < count; i++) {
+            squares.push(size);
+        }
+    }
+    
+    squares.sort((a, b) => a - b);
+    
+    // 4. 각 사각형 배치
+    while (squares.length > 0) {
+        let size = squares.shift();
+        let placed = false;
+        
+        // 모든 위치를 확인
+        for (let row = 0; row <= m - size && !placed; row++) {
+            for (let col = 0; col <= n - size && !placed; col++) {
+                let flag = canPlace(grid, row, col, size)
+                
+                if (flag) {
+                    placeSquare(grid, row, col, size);
+                    answer.push([col, row, size]);
+                    placed = true;
+                }
+            }
+        }
+    }
+    
+    return answer;
+}
+
+function canPlace(grid, row, col, size) {
+    for (let r = row; r < row + size; r++) {
+        for (let c = col; c < col + size; c++) {
+            if (grid[r][c] !== 0) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function placeSquare(grid, row, col, size) {
+    for (let r = row; r < row + size; r++) {
+        for (let c = col; c < col + size; c++) {
+            grid[r][c] = 1;
+        }
+    }
 }
 
 console.log(solution(7,8,[[2,2],[1,4],[3,2]]));

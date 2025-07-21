@@ -114,89 +114,102 @@
 function solution(schedule){
     let answer = 0;
     let map = new Map();
+
     for(let i=0;i<schedule.length;i++){
         let subj = schedule[i];
-        // console.log(subj);
         for(let j=0;j<subj.length;j++){
-            let isSplit = subj[j].length>8? true:false;
-            let c1 = subj[j];
-            let c2 = null;
-            let class1 = getTime(c1,isSplit);
-            if(isSplit){
-                c2 = subj[j].substr(9);
-                let class2 = getTime(c2,isSplit);
-                class1 = [class1,class2];
-            }
+            let c = subj[j];
+            
+            const time = getTime(c);
+
             if(map.has(i)){
-                map.get(i).push(class1);
+                map.get(i).push(time);
             }else{
-                map.set(i,[class1]);
+                map.set(i,[time])
             }
         }
     }
 
-    function backtrack(subj,arr){
-        if(subj === 5){
-            return 1;
+    console.log(map);
+    function backtrack(i, arr){
+        if(i === 5){
+            answer ++;
+            return;
         }
 
         let count = 0;
-        let cur = map.get(subj);
-        // console.log(cur);
-        for(let c of cur){
-            // console.log("c",c);
+        const subj = map.get(i);
+
+        for(const cur of subj){
             let flag = true;
-            for(let a of arr){
-                // console.log("a",a);
-                let isChecked = check(a,c);
+            for(const comp of arr){
+                let isChecked = check(cur, comp);
                 if(!isChecked){
                     flag = false;
                     break;
                 }
             }
+
             if(flag){
-                arr.push(c);
-                count += backtrack(subj+1,arr);
-                arr.pop(c);
+                arr.push(cur);
+                count += backtrack(i + 1, arr);
+                arr.pop();
             }
         }
-        return count;
 
+        return;
     }
     
-    answer = backtrack(0,[]);
-    // console.log(map);
-    // console.log(map.get(0));
+    backtrack(0,[]);
+
     return answer;
 }
 
-function getTime(str, isSplit){
-    let day = str.substr(0,2);
-    let start = parseInt(str.substr(3,2))+parseInt(str.substr(6,2))/60;
-    let end = isSplit?start+1.5:start+3;
-
-    // console.log(day, start, end);
-    return {day, start, end};
+function getTime(c){
+    let isSplit = false;
+    if(c.length>8){
+        isSplit = true;
+        c = [c.substr(0,8),c.substr(9)];
+    }
+    if(isSplit){
+        let arr = [];
+        for(let cc of c){
+            let day = cc.substr(0,2);
+            let start = parseInt(cc.substr(3,2));
+            let min = parseInt(cc.substr(cc.length-2))/60;
+            start += min;
+            let end = start + 1.5;
+            let obj = {day:day,start:start,end:end};
+            arr.push(obj);
+        }
+        return arr;
+    }
+    let day = c.substr(0,2);
+    let start = parseInt(c.substr(3,2));
+    let min = parseInt(c.substr(c.length-2))/60;
+    start += min;
+    let end = start + 3;
+    let obj = {day:day,start:start,end:end};
+    return obj;
 }
 
-function check(a, c){
-    let aa = a[0]?[...a]:[a];
-    let cc = c[0]?[...c]:[c];
-    let result = true;
+function check(cur, comp){
+    cur = Array.isArray(cur)? cur: [cur];
+    comp = Array.isArray(comp)? comp: [comp];
 
-    for (let aaa of aa){
-        for(let ccc of cc){
-            // console.log(aaa,ccc);
-            if(aaa.day === ccc.day){
-                if(aaa.start > ccc.end || ccc.start > aaa.end){
-                    result = false;
-                    break;
+    for(const c1 of cur){
+        for(const c2 of comp){
+            if(c1.day === c2.day){
+                const overlap = c1.start < c2.end && c2.start < c1.end;
+                // 시작시간과 끝시간만 비교
+                if(overlap){
+                    return false;
                 }
             }
         }
     }
-    
-    return result;
+
+    return true;
 }
 
 console.log(solution([

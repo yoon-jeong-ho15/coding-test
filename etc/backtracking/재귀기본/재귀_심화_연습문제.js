@@ -169,12 +169,21 @@ function solution4(arr) {
 
   function findPermutations(currentPermutation) {
     // 여기에 코드를 작성하세요.
-    if(currentPermutation.lengt==arr.length){
-      result.push(currentPermutation);
+    if(currentPermutation.length==arr.length){
+      result.push([...currentPermutation]);
       return;
     }
-    currentSubset.push()
-
+    console.log(currentPermutation, visited);
+    for(let i=0;i<arr.length;i++){
+      let isVisited = visited[i];
+      if(!isVisited){
+        currentPermutation.push(arr[i]);
+        visited[i] = true;
+        findPermutations(currentPermutation);
+        visited[i]=false;
+        currentPermutation.pop();
+      }
+    }
   }
 
   findPermutations([]);
