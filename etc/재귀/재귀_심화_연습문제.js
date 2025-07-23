@@ -22,36 +22,44 @@
 - 출력: -1 (찾지 못함)
 */
 function solution1(sortedArr, target) {
-  // 재귀적으로 탐색을 수행할 내부 함수를 정의합니다.
-  function binarySearchRecursive(start, end) {
-    // 여기에 코드를 작성하세요.
-    // console.log("count",++count);
-    let mid = Math.floor((start+end)/2);
-    // console.log("start",start,"end",end);
-    // console.log("mid",mid,"=",sortedArr[mid]);
+  let answer = 0;
+  let count = 0;
 
-    if(start>end){
-      return [-1,0];
+  function binSearch(arr){
+    console.log("count",count);
+    if(arr.length===1 && arr[0]!== target){
+      answer = -1;
+      return;
     }
 
-    if(sortedArr[mid]===target){
-      return [mid,1];
-    }
+    let mid = Math.floor(arr.length/2);
+    const cur = arr[mid];
 
-    if(sortedArr[mid]<target){
-      const [index, height] = binarySearchRecursive(mid+1,end);
-      return [index, height+1];
+    if(cur===target){
+      answer = sortedArr.indexOf(cur);
+      count++;
+      return;
+    }
+    let left = arr.slice(0,mid);
+    let right = arr.slice(mid);
+    console.log(left,cur,right);
+    if(cur>target){
+      console.log(">",left);
+      count++;
+      binSearch(left);
     }else{
-      const [index, height] = binarySearchRecursive(start,mid-1);
-      return [index, height+1];
+      console.log("<",right);
+      count++;
+      binSearch(right);
     }
   }
-  return binarySearchRecursive(0, sortedArr.length - 1,0);
+  binSearch(sortedArr);
+  return [answer,count];
 }
 
 // console.log("이진 탐색 ([1, 3, 5, 7, 9, 11, 13], 9):", solution1([1, 3, 5, 7, 9, 11, 13], 9));
-// console.log("이진 탐색 ([1, 3, 5, 7, 9, 11, 13], 6):", solution1([1, 3, 5, 7, 9, 11, 13], 6));
-// console.log("이진 탐색 ([1, 3, 5, 7, 9, 11, 13], 11):", solution1([1, 3, 5, 7, 9, 11, 13], 11));
+// console.log("이진 탐색 ([1, 3, 5, 7, 9, 11, 13], 12):", solution1([1, 3, 5, 7, 9, 11, 13], 12));
+// console.log("이진 탐색 ([1,2,3,4,5,6], 2):", solution1([1,2,3,4,5,6], 2));
 
 
 // =================================================================
@@ -72,26 +80,18 @@ function solution1(sortedArr, target) {
 */
 function solution2(arr) {
   const result = [];
-
-  function findSubsets(index, currentSubset) {
-    // 여기에 코드를 작성하세요.
-    if(index==arr.length){
-      result.push([...currentSubset]);
+  function powerSet(cur,i){
+    if(i===arr.length){
+      result.push([...cur]);
       return;
     }
+    cur.push(arr[i]);
+    powerSet(cur,i+1);
 
-    let n = arr[index];
-    // console.log(index,n);
-    currentSubset.push(n);
-    // console.log(currentSubset);
-    findSubsets(index+1,currentSubset);
-
-    currentSubset.pop();
-    // console.log(currentSubset);
-    findSubsets(index+1,currentSubset);
+    cur.pop();
+    powerSet(cur,i+1);
   }
-
-  findSubsets(0, []);
+  powerSet([],0);
   return result;
 }
 
@@ -128,25 +128,22 @@ function solution2(arr) {
 */
 function solution3(n) {
   const moves = [];
-
-  function hanoi(num, from, to, aux) {
-    // 여기에 코드를 작성하세요.
-    if(num==1){
-      moves.push(`${num}번 원반:${from}->${to}`);
+  function hanoi(nn,from,aux,to){
+    if(nn===1){
+      moves.push(`${nn}번 원반: ${from} -> ${to}`);
       return;
-    } 
-    hanoi(num-1,from,aux,to);
-
-    moves.push(`${num}번 원반:${from}->${to}`);
-    hanoi(num-1,aux,to,from);
+    }
+    // console.log("원반",nn);
+    hanoi(nn-1,from,to,aux);
+    moves.push(`${nn}번 원반: ${from} -> ${to}`);
+    hanoi(nn-1,aux,from,to);
 
   }
-
-  hanoi(n, 'A', 'C', 'B');
-  return moves.join('\n');
+  hanoi(n,"A","B","C");
+  return moves.join("\n");
 }
 
-// console.log("하노이의 탑 (3):\n" + solution3(4));
+// console.log("하노이의 탑 (3):\n" + solution3(3));
 
 
 
@@ -170,31 +167,31 @@ function solution3(n) {
 function solution4(arr) {
   const result = [];
   const visited = new Array(arr.length).fill(false);
-
-  function findPermutations(currentPermutation) {
-    // 여기에 코드를 작성하세요.
-    if(currentPermutation.length==arr.length){
-      result.push([...currentPermutation]);
+  console.log(visited);
+  function permutation(perm){
+    if(perm.length===arr.length){
+      result.push([...perm]);
       return;
     }
-    console.log(currentPermutation, visited);
+
     for(let i=0;i<arr.length;i++){
-      let isVisited = visited[i];
-      if(!isVisited){
-        currentPermutation.push(arr[i]);
+      console.log(arr[i],visited[i]);
+      if(!visited[i]){
+        perm.push(arr[i]);
         visited[i] = true;
-        findPermutations(currentPermutation);
-        visited[i]=false;
-        currentPermutation.pop();
+        permutation(perm);
+        perm.pop();
+        visited[i] = false;
       }
     }
+
   }
 
-  findPermutations([]);
+  permutation([]);
   return result;
 }
 
-// console.log("모든 순열 생성 ([1, 2, 3]):", solution4([1, 2, 3]));
+console.log("모든 순열 생성 ([1, 2, 3]):", solution4([1, 2, 3]));
 
 
 // =================================================================
@@ -218,30 +215,7 @@ function solution4(arr) {
 - 출력: ["(())", "()()"]
 */
 function solution5(n) {
-  const result = [];
-
-  function generate(currentStr, openCount, closeCount) {
-    // 여기에 코드를 작성하세요.
-    if(closeCount===n){
-      result.push(currentStr);
-      return;
-    }
-
-    if(openCount<n){
-      currentStr += "(";
-      generate(currentStr,openCount+1,closeCount);
-      currentStr = currentStr.substr(0,currentStr.length-1);
-    }
-    
-    if(closeCount<openCount){
-      currentStr += ")";
-      generate(currentStr,openCount,closeCount+1);
-      currentStr = currentStr.substr(0,currentStr.length-1);
-    }
-  }
-
-  generate("", 0, 0);
-  return result;
+  
 }
 
 // console.log("올바른 괄호 생성 (3):", solution5(3));
@@ -268,34 +242,7 @@ function solution5(n) {
 - 출력: [[2,2,2],[2,2,0],[2,0,1]]
 */
 function solution6(screen, sr, sc, newColor) {
-  const originalColor = screen[sr][sc];
-  // 이미 같은 색이면 변경할 필요가 없습니다.
-  if (originalColor === newColor) return screen;
-
-  function fill(r, c) {
-    // 여기에 코드를 작성하세요.
-    if(r===screen.length || r<0){
-      return;
-    }  
-    if(c===screen[0].length || c<0){
-      return;
-    }
-
-    let cur = screen[r][c];
-    if(originalColor!==cur){
-      return;
-    }
-    
-    screen[r][c] = newColor;
-
-    fill(r+1,c);
-    fill(r-1,c);
-    fill(r,c+1);
-    fill(r,c-1);
-  }
-
-  fill(sr, sc);
-  return screen;
+  
 }
 
 // const screen = [[1,1,1],[1,1,0],[1,0,1]];
@@ -321,11 +268,10 @@ function solution6(screen, sr, sc, newColor) {
 - 출력: [3, 9, 10, 27, 38, 43, 82]
 */
 function solution7(arr) {
-  // 여기에 코드를 작성하세요.
   
 }
 
-console.log("병합 정렬:", solution7([38, 27, 43, 3, 9, 82, 10]));
+// console.log("병합 정렬:", solution7([38, 27, 43, 3, 9, 82, 10]));
 
 
 // =================================================================
@@ -351,8 +297,7 @@ console.log("병합 정렬:", solution7([38, 27, 43, 3, 9, 82, 10]));
 */
 
 function solution8(arr) {
-  // 여기에 코드를 작성하세요.
-
+  
 }
 
 // console.log("중첩 배열 합산:", solution8([1, 2, [3, 4, [5]]]));

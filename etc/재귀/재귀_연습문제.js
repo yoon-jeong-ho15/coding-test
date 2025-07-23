@@ -18,13 +18,20 @@
 - 출력: 1
 */
 function solution1(a, b) {
-  function findGCD(currentA, currentB) {
-    let r = currentA % currentB;
+  function findGCD(max, min) {
+    const r = max % min;
     if(r===0){
-      return currentB;
+      return min;
     }
-    return findGCD(currentB,r);
+    return findGCD(min,r);
   }
+  let temp;
+  if(a<b){
+    temp = b;
+    b = a;
+    a = temp;
+  }
+  // console.log(a,b);
   return findGCD(a, b);
 }
 
@@ -51,10 +58,10 @@ function solution2(str) {
     if(s.length===1){
       return s;
     }
-    let c = s.substr(s.length-1);
+    let a = s.substr(s.length-1);
     s = s.substr(0,s.length-1);
-    return c+reverseStringRecursive(s);
-    
+    console.log(a,s);
+    return a + reverseStringRecursive(s);
   }
   return reverseStringRecursive(str);
 }
@@ -80,13 +87,12 @@ function solution2(str) {
 */
 function solution3(num) {
   function sumDigitsRecursive(n) {
-    // 여기에 코드를 작성하세요.
     if(n.length===1){
       return parseInt(n);
-    }   
-    let c = parseInt(n.substr(0,1));
-    n = n.substr(1,n.length);
-    return c+sumDigitsRecursive(n);
+    }
+    const a = n.substr(0,1);
+    n = n.substr(1);
+    return sumDigitsRecursive(a)+sumDigitsRecursive(n);
   }
   return sumDigitsRecursive(num+"");
 }
@@ -112,12 +118,10 @@ function solution3(num) {
 */
 function solution4(n) {
   function calculateFactorial(num) {
-    // 여기에 코드를 작성하세요.
-    if(num===1||num===0){
+    if(num===0||num===1){
       return 1;
     }
-
-    return num * calculateFactorial(num-1); 
+    return num * calculateFactorial(num-1);
   }
   return calculateFactorial(n);
 }
@@ -144,13 +148,10 @@ function solution4(n) {
 */
 function solution5(n) {
   function getFibonacci(num) {
-    // 여기에 코드를 작성하세요.
-    if(num<=2){
-      return 1;
+    if(num<=1){
+      return num;
     }
-    let a = getFibonacci(num-1);
-    let b = getFibonacci(num-2);
-    return a+b;
+    return getFibonacci(num-1)+getFibonacci(num-2);
   }
   return getFibonacci(n);
 }
@@ -175,12 +176,12 @@ function solution5(n) {
 */
 function solution6(arr) {
   function sumArrayRecursive(array, index) {
-    // 여기에 코드를 작성하세요.
     if(index===arr.length){
-      return 0; 
+      return 0;
     }
     let cur = array[index];
-    return cur + sumArrayRecursive(array,index+1)
+    // console.log(cur);
+    return cur + sumArrayRecursive(array,index+1);
   }
   return sumArrayRecursive(arr, 0);
 }
@@ -206,11 +207,11 @@ function solution6(arr) {
 */
 function solution7(base, exponent) {
   function calculatePower(b, exp) {
-    if(exp===1){
-      return b;
-    }
     if(exp===0){
       return 1;
+    }
+    if(exp===1){
+      return b;
     }
     return b * calculatePower(b,exp-1);
   }
