@@ -167,7 +167,7 @@ function solution3(n) {
 function solution4(arr) {
   const result = [];
   const visited = new Array(arr.length).fill(false);
-  console.log(visited);
+  // console.log(visited);
   function permutation(perm){
     if(perm.length===arr.length){
       result.push([...perm]);
@@ -175,7 +175,7 @@ function solution4(arr) {
     }
 
     for(let i=0;i<arr.length;i++){
-      console.log(arr[i],visited[i]);
+      // console.log(arr[i],visited[i]);
       if(!visited[i]){
         perm.push(arr[i]);
         visited[i] = true;
@@ -191,7 +191,7 @@ function solution4(arr) {
   return result;
 }
 
-console.log("모든 순열 생성 ([1, 2, 3]):", solution4([1, 2, 3]));
+// console.log("모든 순열 생성 ([1, 2, 3]):", solution4([1, 2, 3]));
 
 
 // =================================================================
@@ -215,7 +215,25 @@ console.log("모든 순열 생성 ([1, 2, 3]):", solution4([1, 2, 3]));
 - 출력: ["(())", "()()"]
 */
 function solution5(n) {
+  const answer = [];
+
+  function bracket(openCount,closeCount,currentStr){
+    if(closeCount === n){
+      answer.push(currentStr);
+      return;
+    }
+
+    if(openCount<n){
+      bracket(openCount+1,closeCount,currentStr+"(");
+    }
+    if(closeCount<openCount){
+      bracket(openCount,closeCount+1,currentStr+")");
+    }
   
+  }
+
+  bracket(0,0,"");
+  return answer;
 }
 
 // console.log("올바른 괄호 생성 (3):", solution5(3));
@@ -242,10 +260,52 @@ function solution5(n) {
 - 출력: [[2,2,2],[2,2,0],[2,0,1]]
 */
 function solution6(screen, sr, sc, newColor) {
-  
+  let answer = [];
+  // let crossed= new Array(screen.length).fill(new Array(screen[0].length).fill(false));
+  let crossed = [];
+  for(let i=0;i<screen.length;i++){
+    let row = new Array(screen[0].length).fill(false);
+    crossed.push(row);
+  }
+
+  const base = screen[sr][sc];
+  // console.log(crossed);
+
+  function floodfill(cr,cc){
+
+    if(cr<0 || cr>=screen.length){
+      return;
+    }
+    if(cc<0 || cc>=screen[0].length){
+      return;
+    }
+    const cur = screen[cr][cc];
+    const flag = crossed[cr][cc];
+    
+    if(cur !== base){
+      return;
+    }
+    if(flag === true){
+      return;
+    }
+
+    screen[cr][cc] = newColor;
+    crossed[cr][cc] = true;
+    
+    floodfill(cr-1,cc);
+    floodfill(cr+1,cc);
+    floodfill(cr,cc-1);
+    floodfill(cr,cc+1);
+
+    return;
+  }
+
+  floodfill(sr,sc);
+  answer = screen;
+  return answer;
 }
 
-// const screen = [[1,1,1],[1,1,0],[1,0,1]];
+const screen = [[1,1,1],[1,1,0],[1,0,1]];
 // console.log("플러드 필:", solution6(screen, 1, 1, 2));
 
 
