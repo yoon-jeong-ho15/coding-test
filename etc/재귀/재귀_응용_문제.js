@@ -22,26 +22,44 @@ N x N 크기의 체스판에 N개의 퀸을 서로 공격할 수 없도록 배�
   * 실제 출력은 경우의 수(정수)만 반환해도 됩니다.
 */
 function solution1(n) {
-  let count = 0;
-
-  function isSafe(board, row, col) {
-    // 여기에 유효성 검사 로직을 작성하세요.
-    // 1. 세로 방향 검사
-    // 2. 왼쪽 위 대각선 검사
-    // 3. 오른쪽 위 대각선 검사
+  const answer = [];
+  function isSafe(queens,row,col) {
+    for(const comp of queens){
+      const r = comp[0];
+      const c = comp[1];
+      if(row===r||col===c|| Math.abs(row-r)===Math.abs(col-c)){ // Math.abs안썼음
+        return false;
+      }
+    }
+    return true;
   }
 
-  function solve(board, row) {
-    // 여기에 재귀 로직을 작성하세요.
+  function solve(queens,row){
+    if(row===n){
+      answer.push([...queens]); 
+      return;
+    }
+
+    for(let i=0;i<n;i++){
+      const flag = isSafe(queens,row,i);
+      if(flag){
+        queens.push([row,i]);
+        solve(queens,row+1);
+        queens.pop();
+        //solve(queens.row+1); //이거 넣었으면 안됐음.
+      }
+    }
+
   }
 
-  // 초기 체스판 생성 (예: 0으로 채워진 2D 배열)
-  const board = Array.from({ length: n }, () => Array(n).fill(0));
-  solve(board, 0);
-  return count;
+  solve([],0);
+  console.log(answer);
+  return answer.length;
 }
 
 // console.log("N-Queens (4):", solution1(4));
+console.log("N-Queens (8):", solution1(8));
+
 
 
 // =================================================================

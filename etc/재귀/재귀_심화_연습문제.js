@@ -327,8 +327,20 @@ const screen = [[1,1,1],[1,1,0],[1,0,1]];
 - 입력: [38, 27, 43, 3, 9, 82, 10]
 - 출력: [3, 9, 10, 27, 38, 43, 82]
 */
-function solution7(arr) {
-  
+function solution7(array) {
+    const answer = [];
+    function mergeSort(arr){
+      if(arr.length==1){
+        return arr;
+      }
+
+      const arr1 = mergeSort(arr.splice(0,arr.length/2));
+      const arr2 = mergeSort(arr);
+      const temp=[];
+
+    }
+    mergeSort(array);
+    return answer;
 }
 
 // console.log("병합 정렬:", solution7([38, 27, 43, 3, 9, 82, 10]));
