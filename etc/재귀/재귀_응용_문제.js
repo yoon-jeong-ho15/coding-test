@@ -58,7 +58,7 @@ function solution1(n) {
 }
 
 // console.log("N-Queens (4):", solution1(4));
-console.log("N-Queens (8):", solution1(8));
+// console.log("N-Queens (8):", solution1(8));
 
 
 
@@ -91,14 +91,22 @@ function solution2(digits) {
   const result = [];
 
   function backtrack(index, currentCombination) {
-    // 여기에 재귀 로직을 작성하세요.
+    if(index>=digits.length){
+      result.push(currentCombination);
+      return;
+    }
+    const cur = digits[index];
+    for(const ch of map[cur]){
+      backtrack(index+1,currentCombination+ch);
+    }
+
   }
 
   backtrack(0, "");
   return result;
 }
 
-// console.log('전화번호 문자 조합 ("23"):', solution2("23"));
+console.log('전화번호 문자 조합 ("23"):', solution2("23"));
 
 
 // =================================================================
