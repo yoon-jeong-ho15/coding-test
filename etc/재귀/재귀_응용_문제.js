@@ -91,22 +91,23 @@ function solution2(digits) {
   const result = [];
 
   function backtrack(index, currentCombination) {
+    // 종료조건
     if(index>=digits.length){
       result.push(currentCombination);
       return;
     }
+    // 재귀
     const cur = digits[index];
     for(const ch of map[cur]){
       backtrack(index+1,currentCombination+ch);
     }
-
   }
 
   backtrack(0, "");
   return result;
 }
 
-console.log('전화번호 문자 조합 ("23"):', solution2("23"));
+// console.log('전화번호 문자 조합 ("23"):', solution2("23"));
 
 
 // =================================================================
@@ -136,15 +137,38 @@ console.log('전화번호 문자 조합 ("23"):', solution2("23"));
 function solution3(num, target) {
   const result = [];
 
-  function backtrack(index, currentPath, currentValue, prevOperand) {
-    // 여기에 재귀 로직을 작성하세요.
+  // index: 현재 처리할 숫자의 인덱스
+  // currentPath: 현재까지 만들어진 수식 문자열
+  // currentValue: 현재까지 계산된 수식의 값
+  // lastOperandValue: 마지막으로 더하거나 뺀 (또는 곱해진) 피연산자의 값 (부호 포함)
+  function backtrack(index, currentPath, currentValue, lastOperandValue) {
+    if (index === num.length) {
+      if (currentValue === target) {
+        result.push(currentPath);
+      }
+      return;
+    }
+
+    const cur = parseInt(num[index]);
+
+    if (index === 0) {
+      backtrack(index + 1, String(cur), cur, cur);
+    } else {
+      backtrack(index + 1, currentPath + `+${cur}`, currentValue + cur, cur);
+      backtrack(index + 1, currentPath + `-${cur}`, currentValue - cur, -cur);
+
+
+      const mult = lastOperandValue * cur;
+      const newVal = currentValue - lastOperandValue + mult;//
+      backtrack(index + 1, currentPath + `*${cur}`, newVal, mult);
+    }
   }
 
   backtrack(0, "", 0, 0);
   return result;
 }
 
-// console.log('수식 생성하기 ("123", 6):', solution3("123", 6));
+console.log('수식 생성하기 ("123", 6):', solution3("123", 6));
 
 
 // =================================================================
