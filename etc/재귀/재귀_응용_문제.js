@@ -1,4 +1,3 @@
-
 // =================================================================
 // 문제 1: N-Queens
 // =================================================================
@@ -23,44 +22,42 @@ N x N 크기의 체스판에 N개의 퀸을 서로 공격할 수 없도록 배�
 */
 function solution1(n) {
   const answer = [];
-  function isSafe(queens,row,col) {
-    for(const comp of queens){
+  function isSafe(queens, row, col) {
+    for (const comp of queens) {
       const r = comp[0];
       const c = comp[1];
-      if(row===r||col===c|| Math.abs(row-r)===Math.abs(col-c)){ // Math.abs안썼음
+      if (row === r || col === c || Math.abs(row - r) === Math.abs(col - c)) {
+        // Math.abs안썼음
         return false;
       }
     }
     return true;
   }
 
-  function solve(queens,row){
-    if(row===n){
-      answer.push([...queens]); 
+  function solve(queens, row) {
+    if (row === n) {
+      answer.push([...queens]);
       return;
     }
 
-    for(let i=0;i<n;i++){
-      const flag = isSafe(queens,row,i);
-      if(flag){
-        queens.push([row,i]);
-        solve(queens,row+1);
+    for (let i = 0; i < n; i++) {
+      const flag = isSafe(queens, row, i);
+      if (flag) {
+        queens.push([row, i]);
+        solve(queens, row + 1);
         queens.pop();
         //solve(queens.row+1); //이거 넣었으면 안됐음.
       }
     }
-
   }
 
-  solve([],0);
+  solve([], 0);
   console.log(answer);
   return answer.length;
 }
 
 // console.log("N-Queens (4):", solution1(4));
 // console.log("N-Queens (8):", solution1(8));
-
-
 
 // =================================================================
 // 문제 2: 전화번호 문자 조합
@@ -85,21 +82,27 @@ function solution1(n) {
 function solution2(digits) {
   if (!digits) return [];
   const map = {
-    '2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl',
-    '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'
+    2: "abc",
+    3: "def",
+    4: "ghi",
+    5: "jkl",
+    6: "mno",
+    7: "pqrs",
+    8: "tuv",
+    9: "wxyz",
   };
   const result = [];
 
   function backtrack(index, currentCombination) {
     // 종료조건
-    if(index>=digits.length){
+    if (index >= digits.length) {
       result.push(currentCombination);
       return;
     }
     // 재귀
     const cur = digits[index];
-    for(const ch of map[cur]){
-      backtrack(index+1,currentCombination+ch);
+    for (const ch of map[cur]) {
+      backtrack(index + 1, currentCombination + ch);
     }
   }
 
@@ -108,7 +111,6 @@ function solution2(digits) {
 }
 
 // console.log('전화번호 문자 조합 ("23"):', solution2("23"));
-
 
 // =================================================================
 // 문제 3: 수식 생성하기
@@ -157,9 +159,8 @@ function solution3(num, target) {
       backtrack(index + 1, currentPath + `+${cur}`, currentValue + cur, cur);
       backtrack(index + 1, currentPath + `-${cur}`, currentValue - cur, -cur);
 
-
       const mult = lastOperandValue * cur;
-      const newVal = currentValue - lastOperandValue + mult;//
+      const newVal = currentValue - lastOperandValue + mult; //
       backtrack(index + 1, currentPath + `*${cur}`, newVal, mult);
     }
   }
@@ -168,8 +169,7 @@ function solution3(num, target) {
   return result;
 }
 
-console.log('수식 생성하기 ("123", 6):', solution3("123", 6));
-
+// console.log('수식 생성하기 ("123", 6):', solution3("123", 6));
 
 // =================================================================
 // 문제 4: 유니크한 이진 탐색 트리 II
@@ -216,7 +216,6 @@ function solution4(n) {
 
 // console.log("유니크한 이진 탐색 트리 (3):", solution4(3));
 
-
 // =================================================================
 // 문제 5: 스도쿠 풀기
 // =================================================================
@@ -253,26 +252,69 @@ function solution4(n) {
 */
 function solution5(board) {
   function isValid(row, col, num) {
-    // 여기에 유효성 검사 로직을 작성하세요.
+    for (let i = 0; i < 9; i++) {
+      if (board[row][i] === num) return false;
+    }
+    
+    for (let i = 0; i < 9; i++) {
+      if (board[i][col] === num) return false;
+    }
+    
+    const startRow = Math.floor(row / 3) * 3;
+    const startCol = Math.floor(col / 3) * 3;
+    
+    for (let i = startRow; i < startRow + 3; i++) {
+      for (let j = startCol; j < startCol + 3; j++) {
+        if (board[i][j] === num) return false;
+      }
+    }
+    
+    return true;
   }
 
-  function solve() {
-    // 여기에 재귀/백트래킹 로직을 작성하세요.
+
+  function solve(r, c) {
+    if (r === 9) {
+      return true;
+    }
+    
+    if (c === 9) {
+      return solve(r + 1, 0);
+    }
+    
+    if (board[r][c] !== ".") {
+      return solve(r, c + 1);
+    }
+    
+    for (let i = 1; i <= 9; i++) {
+      
+      if (isValid(r, c, i+"")) {
+        board[r][c] = i+""; 
+        
+        if (solve(r, c + 1)) { 
+          return true; 
+        }
+        
+        board[r][c] = "."; 
+      }
+    }
+    
+    return false; 
   }
 
-  solve();
+  solve(0,0);
   return board; // board는 solve 함수 내에서 직접 수정됩니다.
 }
 
-// const sudokuBoard = [
-//   ["5","3",".",".","7",".",".",".","."],
-//   ["6",".",".","1","9","5",".",".","."],
-//   [".","9","8",".",".",".",".","6","."],
-//   ["8",".",".",".","6",".",".",".","3"],
-//   ["4",".",".","8",".","3",".",".","1"],
-//   ["7",".",".",".","2",".",".",".","6"],
-//   [".","6",".",".",".",".","2","8","."],
-//   [".",".",".","4","1","9",".",".","5"],
-//   [".",".",".",".","8",".",".","7","9"]
-// ];
-// console.log("스도쿠 풀기:", solution5(sudokuBoard));
+const sudokuBoard = [
+  ["5", "3", ".", ".", "7", ".", ".", ".", "."],
+  ["6", ".", ".", "1", "9", "5", ".", ".", "."],
+  [".", "9", "8", ".", ".", ".", ".", "6", "."],
+  ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
+  ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
+  ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+  [".", "6", ".", ".", ".", ".", "2", "8", "."],
+  [".", ".", ".", "4", "1", "9", ".", ".", "5"],
+  [".", ".", ".", ".", "8", ".", ".", "7", "9"],
+];
+console.log("스도쿠 풀기:", solution5(sudokuBoard));
