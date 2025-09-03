@@ -25,42 +25,41 @@ function solution1(sortedArr, target) {
   let answer = 0;
   let count = 0;
 
-  function binSearch(arr){
-    console.log("count",count);
-    if(arr.length===1 && arr[0]!== target){
+  function binSearch(arr) {
+    console.log("count", count);
+    if (arr.length === 1 && arr[0] !== target) {
       answer = -1;
       return;
     }
 
-    let mid = Math.floor(arr.length/2);
+    let mid = Math.floor(arr.length / 2);
     const cur = arr[mid];
 
-    if(cur===target){
+    if (cur === target) {
       answer = sortedArr.indexOf(cur);
       count++;
       return;
     }
-    let left = arr.slice(0,mid);
+    let left = arr.slice(0, mid);
     let right = arr.slice(mid);
-    console.log(left,cur,right);
-    if(cur>target){
-      console.log(">",left);
+    console.log(left, cur, right);
+    if (cur > target) {
+      console.log(">", left);
       count++;
       binSearch(left);
-    }else{
-      console.log("<",right);
+    } else {
+      console.log("<", right);
       count++;
       binSearch(right);
     }
   }
   binSearch(sortedArr);
-  return [answer,count];
+  return [answer, count];
 }
 
 // console.log("이진 탐색 ([1, 3, 5, 7, 9, 11, 13], 9):", solution1([1, 3, 5, 7, 9, 11, 13], 9));
 // console.log("이진 탐색 ([1, 3, 5, 7, 9, 11, 13], 12):", solution1([1, 3, 5, 7, 9, 11, 13], 12));
 // console.log("이진 탐색 ([1,2,3,4,5,6], 2):", solution1([1,2,3,4,5,6], 2));
-
 
 // =================================================================
 // 문제 2: 배열의 모든 조합 생성 (Power Set)
@@ -80,23 +79,22 @@ function solution1(sortedArr, target) {
 */
 function solution2(arr) {
   const result = [];
-  function powerSet(cur,i){
-    if(i===arr.length){
+  function powerSet(cur, i) {
+    if (i === arr.length) {
       result.push([...cur]);
       return;
     }
     cur.push(arr[i]);
-    powerSet(cur,i+1);
+    powerSet(cur, i + 1);
 
     cur.pop();
-    powerSet(cur,i+1);
+    powerSet(cur, i + 1);
   }
-  powerSet([],0);
+  powerSet([], 0);
   return result;
 }
 
 // console.log("모든 조합 생성 ([1, 2, 3]):", solution2([1, 2, 3]));
-
 
 // =================================================================
 // 문제 3: 하노이의 탑
@@ -128,24 +126,21 @@ function solution2(arr) {
 */
 function solution3(n) {
   const moves = [];
-  function hanoi(nn,from,aux,to){
-    if(nn===1){
+  function hanoi(nn, from, aux, to) {
+    if (nn === 1) {
       moves.push(`${nn}번 원반: ${from} -> ${to}`);
       return;
     }
     // console.log("원반",nn);
-    hanoi(nn-1,from,to,aux);
+    hanoi(nn - 1, from, to, aux);
     moves.push(`${nn}번 원반: ${from} -> ${to}`);
-    hanoi(nn-1,aux,from,to);
-
+    hanoi(nn - 1, aux, from, to);
   }
-  hanoi(n,"A","B","C");
+  hanoi(n, "A", "B", "C");
   return moves.join("\n");
 }
 
 // console.log("하노이의 탑 (3):\n" + solution3(3));
-
-
 
 // =================================================================
 // 문제 4: 모든 순열 생성 (Permutations)
@@ -168,15 +163,16 @@ function solution4(arr) {
   const result = [];
   const visited = new Array(arr.length).fill(false);
   // console.log(visited);
-  function permutation(perm){
-    if(perm.length===arr.length){
+
+  function permutation(perm) {
+    if (perm.length === arr.length) {
       result.push([...perm]);
       return;
     }
 
-    for(let i=0;i<arr.length;i++){
+    for (let i = 0; i < arr.length; i++) {
       // console.log(arr[i],visited[i]);
-      if(!visited[i]){
+      if (!visited[i]) {
         perm.push(arr[i]);
         visited[i] = true;
         permutation(perm);
@@ -184,7 +180,6 @@ function solution4(arr) {
         visited[i] = false;
       }
     }
-
   }
 
   permutation([]);
@@ -192,7 +187,6 @@ function solution4(arr) {
 }
 
 // console.log("모든 순열 생성 ([1, 2, 3]):", solution4([1, 2, 3]));
-
 
 // =================================================================
 // 문제 5: 올바른 괄호 생성
@@ -217,27 +211,25 @@ function solution4(arr) {
 function solution5(n) {
   const answer = [];
 
-  function bracket(openCount,closeCount,currentStr){
-    if(closeCount === n){
+  function bracket(openCount, closeCount, currentStr) {
+    if (closeCount === n) {
       answer.push(currentStr);
       return;
     }
 
-    if(openCount<n){
-      bracket(openCount+1,closeCount,currentStr+"(");
+    if (openCount < n) {
+      bracket(openCount + 1, closeCount, currentStr + "(");
     }
-    if(closeCount<openCount){
-      bracket(openCount,closeCount+1,currentStr+")");
+    if (closeCount < openCount) {
+      bracket(openCount, closeCount + 1, currentStr + ")");
     }
-  
   }
 
-  bracket(0,0,"");
+  bracket(0, 0, "");
   return answer;
 }
 
 // console.log("올바른 괄호 생성 (3):", solution5(3));
-
 
 // =================================================================
 // 문제 6: 플러드 필 (Flood Fill)
@@ -263,7 +255,7 @@ function solution6(screen, sr, sc, newColor) {
   let answer = [];
   // let crossed= new Array(screen.length).fill(new Array(screen[0].length).fill(false));
   let crossed = [];
-  for(let i=0;i<screen.length;i++){
+  for (let i = 0; i < screen.length; i++) {
     let row = new Array(screen[0].length).fill(false);
     crossed.push(row);
   }
@@ -271,43 +263,45 @@ function solution6(screen, sr, sc, newColor) {
   const base = screen[sr][sc];
   // console.log(crossed);
 
-  function floodfill(cr,cc){
-
-    if(cr<0 || cr>=screen.length){
+  function floodfill(cr, cc) {
+    if (cr < 0 || cr >= screen.length) {
       return;
     }
-    if(cc<0 || cc>=screen[0].length){
+    if (cc < 0 || cc >= screen[0].length) {
       return;
     }
     const cur = screen[cr][cc];
     const flag = crossed[cr][cc];
-    
-    if(cur !== base){
+
+    if (cur !== base) {
       return;
     }
-    if(flag === true){
+    if (flag === true) {
       return;
     }
 
     screen[cr][cc] = newColor;
     crossed[cr][cc] = true;
-    
-    floodfill(cr-1,cc);
-    floodfill(cr+1,cc);
-    floodfill(cr,cc-1);
-    floodfill(cr,cc+1);
+
+    floodfill(cr - 1, cc);
+    floodfill(cr + 1, cc);
+    floodfill(cr, cc - 1);
+    floodfill(cr, cc + 1);
 
     return;
   }
 
-  floodfill(sr,sc);
+  floodfill(sr, sc);
   answer = screen;
   return answer;
 }
 
-const screen = [[1,1,1],[1,1,0],[1,0,1]];
+const screen = [
+  [1, 1, 1],
+  [1, 1, 0],
+  [1, 0, 1],
+];
 // console.log("플러드 필:", solution6(screen, 1, 1, 2));
-
 
 // =================================================================
 // 문제 7: 병합 정렬 (Merge Sort)
@@ -328,23 +322,21 @@ const screen = [[1,1,1],[1,1,0],[1,0,1]];
 - 출력: [3, 9, 10, 27, 38, 43, 82]
 */
 function solution7(array) {
-    const answer = [];
-    function mergeSort(arr){
-      if(arr.length==1){
-        return arr;
-      }
-
-      const arr1 = mergeSort(arr.splice(0,arr.length/2));
-      const arr2 = mergeSort(arr);
-      const temp=[];
-
+  const answer = [];
+  function mergeSort(arr) {
+    if (arr.length == 1) {
+      return arr;
     }
-    mergeSort(array);
-    return answer;
+
+    const arr1 = mergeSort(arr.splice(0, arr.length / 2));
+    const arr2 = mergeSort(arr);
+    const temp = [];
+  }
+  mergeSort(array);
+  return answer;
 }
 
 // console.log("병합 정렬:", solution7([38, 27, 43, 3, 9, 82, 10]));
-
 
 // =================================================================
 // 문제 8: 중첩 배열 합산
@@ -368,9 +360,7 @@ function solution7(array) {
 - 출력: 21
 */
 
-function solution8(arr) {
-  
-}
+function solution8(arr) {}
 
 // console.log("중첩 배열 합산:", solution8([1, 2, [3, 4, [5]]]));
 // console.log("중첩 배열 합산:", solution8([[1, 2], 3, [4, [5, 6]]]));

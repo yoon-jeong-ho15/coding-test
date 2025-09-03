@@ -1,7 +1,4 @@
-/*
-문제 4: 모든 순열 생성 (Permutations) - 인덱스와 스왑(Swap) 사용 버전
-*/
-function solution4_with_index(arr) {
+function solution4(arr) {
   const result = [];
 
   // 배열의 두 요소를 스왑하는 헬퍼 함수
@@ -33,4 +30,4 @@ function solution4_with_index(arr) {
   return result;
 }
 
-console.log("모든 순열 생성 ([1, 2, 3]) - 인덱스 버전:", solution4_with_index([1, 2, 3]));
+console.log(solution4_([1, 2, 3]));
