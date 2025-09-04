@@ -1,17 +1,9 @@
-// JavaScript code to depict
-// the implementation of a max heap.
-
 class MaxHeap {
     constructor(maxSize) {
-        // the array in the heap.
         this.arr = new Array(maxSize).fill(null);
 
-        // Maximum possible size of
-        // the Max Heap.
         this.maxSize = maxSize;
 
-        // Number of elements in the
-        // Max heap currently.
         this.heapSize = 0;
     }
 
@@ -35,28 +27,19 @@ class MaxHeap {
         }
     }
 
-    // Returns the index of the parent
-    // of the element at ith index.
     parent(i) {
         return Math.floor((i - 1) / 2);
     }
 
-    // Returns the index of the left child.
     lChild(i) {
         return 2 * i + 1;
     }
 
-    // Returns the index of the
-    // right child.
     rChild(i) {
         return 2 * i + 2;
     }
 
-    // Removes the root which in this
-    // case contains the maximum element.
     removeMax() {
-        // Checking whether the heap array
-        // is empty or not.
         if (this.heapSize <= 0) {
             return null;
         }
@@ -166,4 +149,3 @@ console.log("insertKey(15), insertKey(5)");
 console.log(h.arr, "\n");
 console.log("The current size of the heap is " + h.curSize() + "\n");
 console.log("The current maximum element is " + h.getMax() + "\n");
-// Contributed by sdeadityasharma

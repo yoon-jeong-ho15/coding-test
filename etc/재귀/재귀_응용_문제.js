@@ -22,6 +22,7 @@ N x N 크기의 체스판에 N개의 퀸을 서로 공격할 수 없도록 배�
 */
 function solution1(n) {
   const answer = [];
+
   function isSafe(queens, row, col) {
     for (const comp of queens) {
       const r = comp[0];
@@ -34,29 +35,48 @@ function solution1(n) {
     return true;
   }
 
-  function solve(queens, row) {
+  // function solve(queens, row) {
+  //   if (row === n) {
+  //     answer.push([...queens]);
+  //     return;
+  //   }
+
+  //   for (let i = 0; i < n; i++) {
+  //     const flag = isSafe(queens, row, i);
+  //     if (flag) {
+  //       queens.push([row, i]);
+  //       solve(queens, row + 1);
+  //       queens.pop();
+  //       //solve(queens.row+1); //이거 넣었으면 안됐음.
+  //     }
+  //   }
+  // }
+
+  // solve([], 0);
+
+  function solveRecursive(queens, row, col) {
     if (row === n) {
       answer.push([...queens]);
       return;
     }
+    if (col >= n) return;
 
-    for (let i = 0; i < n; i++) {
-      const flag = isSafe(queens, row, i);
-      if (flag) {
-        queens.push([row, i]);
-        solve(queens, row + 1);
-        queens.pop();
-        //solve(queens.row+1); //이거 넣었으면 안됐음.
-      }
+    if (isSafe(queens, row, col)) {
+      queens.push([row, col]);
+      solveRecursive(queens, row + 1, 0);
+      queens.pop();
     }
+
+    solveRecursive(queens, row, col + 1);
   }
 
-  solve([], 0);
+  solveRecursive([], 0, 0);
+
   console.log(answer);
   return answer.length;
 }
 
-// console.log("N-Queens (4):", solution1(4));
+console.log("N-Queens (4):", solution1(4));
 // console.log("N-Queens (8):", solution1(8));
 
 // =================================================================
@@ -255,54 +275,52 @@ function solution5(board) {
     for (let i = 0; i < 9; i++) {
       if (board[row][i] === num) return false;
     }
-    
+
     for (let i = 0; i < 9; i++) {
       if (board[i][col] === num) return false;
     }
-    
+
     const startRow = Math.floor(row / 3) * 3;
     const startCol = Math.floor(col / 3) * 3;
-    
+
     for (let i = startRow; i < startRow + 3; i++) {
       for (let j = startCol; j < startCol + 3; j++) {
         if (board[i][j] === num) return false;
       }
     }
-    
+
     return true;
   }
-
 
   function solve(r, c) {
     if (r === 9) {
       return true;
     }
-    
+
     if (c === 9) {
       return solve(r + 1, 0);
     }
-    
+
     if (board[r][c] !== ".") {
       return solve(r, c + 1);
     }
-    
+
     for (let i = 1; i <= 9; i++) {
-      
-      if (isValid(r, c, i+"")) {
-        board[r][c] = i+""; 
-        
-        if (solve(r, c + 1)) { 
-          return true; 
+      if (isValid(r, c, i + "")) {
+        board[r][c] = i + "";
+
+        if (solve(r, c + 1)) {
+          return true;
         }
-        
-        board[r][c] = "."; 
+
+        board[r][c] = ".";
       }
     }
-    
-    return false; 
+
+    return false;
   }
 
-  solve(0,0);
+  solve(0, 0);
   return board; // board는 solve 함수 내에서 직접 수정됩니다.
 }
 
@@ -317,4 +335,4 @@ const sudokuBoard = [
   [".", ".", ".", "4", "1", "9", ".", ".", "5"],
   [".", ".", ".", ".", "8", ".", ".", "7", "9"],
 ];
-console.log("스도쿠 풀기:", solution5(sudokuBoard));
+// console.log("스도쿠 풀기:", solution5(sudokuBoard));

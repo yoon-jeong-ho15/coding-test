@@ -80,6 +80,36 @@ function solution(k, dungeons) {
     return answer;
 }
 
+function _solution(k, dungeons) {
+    let answer = 0;
+    const allIndices = Array.from({ length: dungeons.length }, (_, i) => i);
+
+    function backtrack(currentK, visited, remainingIndices) {
+        // 현재까지의 탐험 횟수 계산
+        const count = dungeons.length - remainingIndices.length;
+        answer = Math.max(answer, count);
+
+        // 더 이상 탐험할 던전이 없으면 종료
+        if (remainingIndices.length === 0) return;
+
+        // 각 남은 던전에 대해 재귀 호출
+        remainingIndices.forEach((index, i) => {
+            const [need, spend] = dungeons[index];
+            if (currentK >= need) {
+                // 현재 던전을 제외한 새로운 배열 생성
+                const newRemaining = remainingIndices.filter(
+                    (_, idx) => idx !== i,
+                );
+                backtrack(currentK - spend, [...visited, index], newRemaining);
+            }
+        });
+    }
+
+    backtrack(k, [], allIndices);
+
+    return answer;
+}
+
 console.log(
     solution(80, [
         [80, 20],
