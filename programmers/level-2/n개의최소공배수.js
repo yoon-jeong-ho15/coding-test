@@ -7,15 +7,13 @@ function gcd(a, b) {
 }
 
 function solution(arr) {
-	let lcm = arr[0];
-
-	for (let i = 1; i < arr.length; i++) {
-		let a = lcm;
-		let b = arr[i];
-		let gcd_val = gcd(a, b);
-		lcm = (lcm * arr[i]) / gcd_val;
+	let lcm = 0;
+	for (let i = 0; i < arr.length - 1; i++) {
+		let a = i === 0 ? arr[0] : lcm;
+		let b = arr[i + 1];
+		let g = gcd(a, b);
+		lcm = (a / g) * b;
 	}
-
 	return lcm;
 }
 
