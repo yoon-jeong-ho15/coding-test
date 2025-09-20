@@ -8,24 +8,31 @@ const input = source.split("\n");
 const [R, C] = input[0].split(" ").map(Number);
 
 const queue = [];
-const fire = [];
-const exit = Array(R)
+const fires = [];
+const visited = Array(R)
 	.fill()
 	.map(() => Array(C).fill(false));
+// console.log(visited);
+const fireTime = Array(R)
+	.fill()
+	.map(() => Array(C).fill(Infinity));
 
 const maze = input.slice(1).map((row, r) =>
 	row.split("").map((item, c) => {
-		if (
-			(c === 0 || c === C - 1 || r === 0 || r === R - 1) &&
-			item !== "#"
-		) {
-			exit[r][c] = true;
+		if (item === "J") {
+			queue.push([r, c, 0]);
+			visited[r][c] = true;
 		}
-		if (item === "J") queue.push([r, c, 0]);
-		if (item === "F") fire.push([r, c]);
+		if (item === "F") {
+			fires.push([r, c, 0]);
+			fireTime[r][c] = 0;
+		}
 		return item;
 	}),
 );
+
+// console.log(queue, fires);
+// console.log(maze);
 
 const directions = [
 	[-1, 0],
@@ -34,53 +41,48 @@ const directions = [
 	[0, 1],
 ];
 
-let answer = [];
-let isOut = false;
+while (fires.length > 0) {
+	const [r, c, d] = fires.shift();
 
-// console.log(maze);
-// console.log("queue :", queue);
-// console.log("fire :", fire);
-// console.log("exit :", exit);
-let head = 0;
+	for (const [dy, dx] of directions) {
+		const y = r + dy;
+		const x = c + dx;
 
-while (queue.length > 0) {
+		const check = y >= 0 && x >= 0 && y < R && x < C;
+
+		if (check && maze[y][x] !== "#" && fireTime[y][x] === Infinity) {
+			fires.push([y, x, d + 1]);
+			fireTime[y][x] = d + 1;
+		}
+	}
+}
+// console.log(fireTime);
+
+let answer = "IMPOSSIBLE";
+let found = false;
+while (queue.length > 0 && !found) {
 	const [r, c, d] = queue.shift();
 
-	// console.log(r, c, exit[r][c]);
-	if (exit[r][c]) {
-		answer = d + 1;
-		isOut = true;
-		break;
-	}
+	for (const [dy, dx] of directions) {
+		const y = r + dy;
+		const x = c + dx;
 
-	for (const dir of directions) {
-		const y = r + dir[0];
-		const x = c + dir[1];
-
-		const check1 = y >= 0 && y < R && x >= 0 && x < C;
-		// console.log("check1 :", x, y, check1);
-		if (check1 && maze[y][x] === ".") {
+		const check = y >= 0 && x >= 0 && y < R && x < C;
+		if (!check) {
+			answer = d + 1;
+			found = true;
+			break;
+		}
+		if (
+			check &&
+			!visited[y][x] &&
+			maze[y][x] === "." &&
+			d + 1 < fireTime[y][x]
+		) {
+			visited[y][x] = true;
 			queue.push([y, x, d + 1]);
 		}
 	}
-
-	const max = fire.length;
-	for (let i = head; i < max; i++) {
-		const [fr, fc] = fire[i];
-		// console.log("fire", fr, fc);
-		for (const dir of directions) {
-			const y = fr + dir[0];
-			const x = fc + dir[1];
-
-			const check2 = y >= 0 && y < R && x >= 0 && x < C;
-			// console.log("check2 :", x, y, check2);
-			if (check2 && maze[y][x] !== "#" && maze[y][x] !== "F") {
-				fire.push([y, x]);
-				maze[y][x] = "F";
-			}
-		}
-	}
-	head = max;
 }
 
-console.log(isOut ? answer : "IMPOSSIBLE");
+console.log(answer);

@@ -12,7 +12,6 @@ function solution() {
     let jihun = null;
     const fires = [];
 
-    // 미로 입력 받기
     for (let i = 1; i <= R; i++) {
         const row = input[i].split("");
         maze.push(row);
@@ -26,6 +25,8 @@ function solution() {
             }
         }
     }
+    // console.log(jihun);
+    // console.log(maze);
 
     const directions = [
         [-1, 0],
@@ -44,6 +45,9 @@ function solution() {
     for (const [r, c] of fires) {
         fireTime[r][c] = 0;
     }
+
+    // console.log(fireTime);
+    // console.log(fireQueue);
 
     let time = 0;
     while (fireQueue.length > 0) {
@@ -71,13 +75,16 @@ function solution() {
         }
         time++;
     }
+    // console.log(fireTime);
 
     // 지훈이의 이동
     const queue = [jihun.concat(0)]; // [r, c, time]
+    // console.log(queue);
     const visited = Array(R)
         .fill(null)
         .map(() => Array(C).fill(false));
     visited[jihun[0]][jihun[1]] = true;
+    // console.log(visited);
 
     while (queue.length > 0) {
         const [r, c, t] = queue.shift();
