@@ -4,13 +4,11 @@ for (let i = 0; i < list.length; i++) {
 	console.log(`${i} cycle - [${list}]`);
 	let switched = false;
 
-	for (let j = i; j < list.length; j++) {
+	for (let j = i; j < list.length - 1; j++) {
 		let cur = list[j];
-		let next;
+		let next = list[j + 1];
 
-		if (list[j + 1]) next = list[j + 1];
-
-		if (next && next < cur) {
+		if (next < cur) {
 			list[j] = next;
 			list[j + 1] = cur;
 			switched = true;
